@@ -1,0 +1,29 @@
+version: '2'
+services:
+  app1:
+    build: node_app_1
+    restart: always
+    networks:
+      n7:
+        ipv4_address: 172.23.0.9
+    ports:
+      - 1107:1107
+
+  app2:
+     build: node_app_2
+     restart: always
+     networks:
+      n7:
+        ipv4_address: 172.23.0.8
+     ports:
+     - 1108:1108
+     links:
+      - node_app_1
+
+networks:
+  n7:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 172.23.0.0/16
+         gateway: 172.23.0.1
