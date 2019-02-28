@@ -1,24 +1,26 @@
 version: '2'
 services:
   app1:
-    build: node_app_1
+    build: node_app1
     restart: always
     networks:
       n7:
         ipv4_address: 172.23.0.9
     ports:
       - 1107:1107
-
-  app2:
-     build: node_app_2
+    links:
+      - mysql
+  mysql:
+     image: mysql:latest
+     command: --default-authentication-plugin=mysql_native_password
      restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: 1234
      networks:
-      n7:
-        ipv4_address: 172.23.0.8
+       n7: 
+         ipv4_address: 172.23.0.4
      ports:
-     - 1108:1108
-     links:
-      - node_app_1
+     - 3306:3306
 
 networks:
   n7:
