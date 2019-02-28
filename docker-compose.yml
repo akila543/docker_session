@@ -9,18 +9,26 @@ services:
     ports:
       - 1107:1107
     links:
-      - mysql
+      - mongodb
   mysql:
-     image: mysql:latest
+     image: mysql:8.0.11
      command: --default-authentication-plugin=mysql_native_password
      restart: always
      environment:
-       MYSQL_ROOT_PASSWORD: 1234
+       MYSQL_ROOT_PASSWORD: root
      networks:
        n7: 
          ipv4_address: 172.23.0.4
      ports:
      - 3306:3306
+  mongodb:
+     image: mongo:latest
+     restart: always
+     networks:
+       n7:
+         ipv4_address: 172.23.0.6
+     ports:
+     - 27017:27017    
 
 networks:
   n7:
